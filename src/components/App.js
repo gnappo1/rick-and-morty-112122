@@ -5,6 +5,10 @@ import './App.css';
 import SearchForm from './SearchForm';
 import CharactersList from './CharactersList';
 import CharacterForm from './CharacterForm';
+import Character from './Character';
+
+import { Switch, Route } from "react-router-dom"
+import ErrorPage from './ErrorPage';
 
 function App() {
   const [queryChar, setQueryChar] = useState("")
@@ -35,11 +39,22 @@ function App() {
   return (
     <>
       <div className="App transparent">
-        <SearchForm query={queryChar} setQueryChar={setQueryChar}/>
-        <CharacterForm setCharacters={setCharacters} />
-        <CharactersList characters={filteredCharacters} />
+        <Switch>
+          <Route path="/characters/new">
+            <CharacterForm setCharacters={setCharacters} />
+          </Route>
+          <Route path="/characters/:id">
+            <Character />
+          </Route>
+          <Route path="/">
+            <SearchForm query={queryChar} setQueryChar={setQueryChar}/>
+            <CharactersList characters={filteredCharacters} />
+          </Route>
+          <Route>
+            <ErrorPage />
+          </Route>
+        </Switch>
       </div>
-      <div className='cursor'></div>
     </>
   );
 }
